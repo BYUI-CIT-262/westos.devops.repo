@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cit262-groupall
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cit262-groupall
+  template:
+    metadata:
+      labels:
+        app: cit262-groupall
+    spec:
+      containers:
+      - name: cit262-groupall
+        image: gcr.io/potent-galaxy-274115/cit262-groupall
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: ".5"
+            memory: "500Mi"
+          requests:
+            cpu: ".25"
+            memory: "250Mi"
+        livenessProbe:
+          httpGet:
+            path: /index.html
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cit262-groupall-service
+spec:
+  selector:
+    app: cit262-groupall
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cit262-groupall-loadbalancer
+spec:
+  selector:
+    app: cit262-groupall
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+   
