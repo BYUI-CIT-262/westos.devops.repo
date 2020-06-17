@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cit262-groupall
+  name: westons-page
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cit262-groupall
+      app: westons-page
   template:
     metadata:
       labels:
-        app: cit262-groupall
+        app: westons-page
     spec:
       containers:
-      - name: cit262-groupall
-        image: gcr.io/potent-galaxy-274115/cit262-groupall
+      - name: westons-page
+        image: gcr.io/potent-galaxy-274115/westons-page
         ports:
         - containerPort: 80
         resources:
@@ -34,10 +34,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cit262-groupall-service
+  name: westons-page-service
 spec:
   selector:
-    app: cit262-groupall
+    app: westons-page
   ports:
     - protocol: TCP
       port: 80
@@ -46,10 +46,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: cit262-groupall-loadbalancer
+  name: westons-page-loadbalancer
 spec:
   selector:
-    app: cit262-groupall
+    app: westons-page
   type: LoadBalancer
   ports:
   - port: 80
